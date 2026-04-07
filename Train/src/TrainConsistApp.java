@@ -1,6 +1,7 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
-// Bogie class (OOP Model)
+// Bogie class (same as UC7)
 class Bogie {
     String name;
     int capacity;
@@ -22,26 +23,24 @@ public class TrainConsistApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // ---------------- UC7 (Comparator + OOP) ----------------
+        // ---------------- UC7 Data ----------------
         List<Bogie> passengerBogies = new ArrayList<>();
 
-        // Create bogie objects
         passengerBogies.add(new Bogie("Sleeper", 72));
         passengerBogies.add(new Bogie("AC Chair", 60));
         passengerBogies.add(new Bogie("First Class", 24));
 
-        System.out.println("\nBefore Sorting:");
-        for (Bogie b : passengerBogies) {
-            System.out.println(b);
-        }
+        System.out.println("\nAll Passenger Bogies:");
+        passengerBogies.forEach(System.out::println);
 
-        // Sort by capacity (ascending)
-        passengerBogies.sort(Comparator.comparingInt(b -> b.capacity));
+        // ---------------- UC8 (Stream Filtering) ----------------
+        List<Bogie> filteredBogies = passengerBogies
+                .stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
 
-        System.out.println("\nAfter Sorting by Capacity (Ascending):");
-        for (Bogie b : passengerBogies) {
-            System.out.println(b);
-        }
+        System.out.println("\nFiltered Bogies (Capacity > 60):");
+        filteredBogies.forEach(System.out::println);
 
         System.out.println("\nSystem ready for further operations...");
     }
