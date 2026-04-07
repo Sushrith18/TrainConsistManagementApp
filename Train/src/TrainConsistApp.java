@@ -1,19 +1,21 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
-// Bogie class (same as UC7)
+// Bogie class (extended with type)
 class Bogie {
     String name;
     int capacity;
+    String type; // Passenger or Goods
 
-    public Bogie(String name, int capacity) {
+    public Bogie(String name, int capacity, String type) {
         this.name = name;
         this.capacity = capacity;
+        this.type = type;
     }
 
     @Override
     public String toString() {
-        return name + " (Capacity: " + capacity + ")";
+        return name + " (Capacity: " + capacity + ", Type: " + type + ")";
     }
 }
 
@@ -23,24 +25,30 @@ public class TrainConsistApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // ---------------- UC7 Data ----------------
-        List<Bogie> passengerBogies = new ArrayList<>();
+        // ---------------- UC7/UC8 Data ----------------
+        List<Bogie> bogies = new ArrayList<>();
 
-        passengerBogies.add(new Bogie("Sleeper", 72));
-        passengerBogies.add(new Bogie("AC Chair", 60));
-        passengerBogies.add(new Bogie("First Class", 24));
+        bogies.add(new Bogie("Sleeper", 72, "Passenger"));
+        bogies.add(new Bogie("AC Chair", 60, "Passenger"));
+        bogies.add(new Bogie("First Class", 24, "Passenger"));
+        bogies.add(new Bogie("Cargo Rectangular", 1000, "Goods"));
+        bogies.add(new Bogie("Cargo Cylindrical", 1200, "Goods"));
+        bogies.add(new Bogie("Sleeper", 72, "Passenger")); // duplicate type
 
-        System.out.println("\nAll Passenger Bogies:");
-        passengerBogies.forEach(System.out::println);
+        System.out.println("\nAll Bogies:");
+        bogies.forEach(System.out::println);
 
-        // ---------------- UC8 (Stream Filtering) ----------------
-        List<Bogie> filteredBogies = passengerBogies
+        // ---------------- UC9 (Grouping) ----------------
+        Map<String, List<Bogie>> groupedBogies = bogies
                 .stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
+                .collect(Collectors.groupingBy(b -> b.type));
 
-        System.out.println("\nFiltered Bogies (Capacity > 60):");
-        filteredBogies.forEach(System.out::println);
+        System.out.println("\nGrouped Bogies by Type:");
+
+        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+            System.out.println("\n" + entry.getKey() + " Bogies:");
+            entry.getValue().forEach(System.out::println);
+        }
 
         System.out.println("\nSystem ready for further operations...");
     }
