@@ -1,11 +1,20 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.LinkedList;
-import java.util.LinkedHashSet;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+// Bogie class (OOP Model)
+class Bogie {
+    String name;
+    int capacity;
+
+    public Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (Capacity: " + capacity + ")";
+    }
+}
 
 public class TrainConsistApp {
 
@@ -13,53 +22,25 @@ public class TrainConsistApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // ---------------- UC2 ----------------
-        List<String> passengerBogies = new ArrayList<>();
-        passengerBogies.add("Sleeper");
-        passengerBogies.add("AC Chair");
-        passengerBogies.add("First Class");
-        passengerBogies.remove("AC Chair");
-        boolean exists = passengerBogies.contains("Sleeper");
+        // ---------------- UC7 (Comparator + OOP) ----------------
+        List<Bogie> passengerBogies = new ArrayList<>();
 
-        // ---------------- UC3 ----------------
-        Set<String> bogieIds = new HashSet<>();
-        bogieIds.add("BG101");
-        bogieIds.add("BG102");
-        bogieIds.add("BG101"); // duplicate
+        // Create bogie objects
+        passengerBogies.add(new Bogie("Sleeper", 72));
+        passengerBogies.add(new Bogie("AC Chair", 60));
+        passengerBogies.add(new Bogie("First Class", 24));
 
-        // ---------------- UC4 ----------------
-        LinkedList<String> trainConsist = new LinkedList<>();
-        trainConsist.add("Engine");
-        trainConsist.add("Sleeper");
-        trainConsist.add("AC");
-        trainConsist.add("Cargo");
-        trainConsist.add("Guard");
-        trainConsist.add(2, "Pantry");
-        trainConsist.removeFirst();
-        trainConsist.removeLast();
+        System.out.println("\nBefore Sorting:");
+        for (Bogie b : passengerBogies) {
+            System.out.println(b);
+        }
 
-        // ---------------- UC5 ----------------
-        LinkedHashSet<String> formation = new LinkedHashSet<>();
-        formation.add("Engine");
-        formation.add("Sleeper");
-        formation.add("Cargo");
-        formation.add("Guard");
-        formation.add("Sleeper"); // duplicate ignored
+        // Sort by capacity (ascending)
+        passengerBogies.sort(Comparator.comparingInt(b -> b.capacity));
 
-        // ---------------- UC6 (HashMap) ----------------
-        Map<String, Integer> bogieCapacityMap = new HashMap<>();
-
-        // Add bogie-capacity mapping
-        bogieCapacityMap.put("Sleeper", 72);
-        bogieCapacityMap.put("AC Chair", 60);
-        bogieCapacityMap.put("First Class", 24);
-        bogieCapacityMap.put("Cargo", 1000); // load capacity example
-
-        System.out.println("\nBogie Capacity Mapping:");
-
-        // Iterate using entrySet()
-        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
-            System.out.println(entry.getKey() + " → Capacity: " + entry.getValue());
+        System.out.println("\nAfter Sorting by Capacity (Ascending):");
+        for (Bogie b : passengerBogies) {
+            System.out.println(b);
         }
 
         System.out.println("\nSystem ready for further operations...");
